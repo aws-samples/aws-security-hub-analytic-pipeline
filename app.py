@@ -9,7 +9,7 @@ from aws_cdk import core as cdk
 # being updated to use `cdk`.  You may delete this import if you don't need it.
 from aws_cdk import core
 
-from security_analytic_pipeline.artifact_code_stack import SecurityAnalyticPipelineStack
+from security_analytic_pipeline.security_analytic_pipeline_stack import SecurityAnalyticPipelineStack
 
 
 app = core.App()

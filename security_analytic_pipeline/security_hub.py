@@ -17,6 +17,7 @@ from os import path
 
 
 class SecurityHub(cdk.Construct):
+    """Security Hub Contruct designed to act like an L2 CDK Construct"""
     def __init__(self, scope: cdk.Construct, identifier: str):
         super().__init__(scope, identifier)
 
