@@ -22,8 +22,8 @@ def test_fix_dictionary():
         'SchemaVersion': '2018-10-08',
         'Compliance': {'Status': 'PASSED'},
         'GeneratorId': 'arn:aws:securityhub:::ruleset/cis-aws-foundations-benchmark/v/1.2.0/rule/4.1',
-        'FirstObservedAt': '2021-04-12T17:52:51.145Z',
-        'CreatedAt': '2021-04-12T17:52:51.145Z',
+        'FirstObservedAt': '2021-01-31T04:52:30.123Z',
+        'CreatedAt': '2021-01-31T04:52:30.123Z',
         'RecordState': 'ACTIVE',
         'Title': '4.1 Ensure no security groups allow ingress from 0.0.0.0/0 to port 22',
         'Workflow': {'Status': 'RESOLVED'},
@@ -38,18 +38,18 @@ def test_fix_dictionary():
         'WorkflowState': 'NEW',
         'ProductFields': {
             'StandardsGuideArn': 'arn:aws:securityhub:::ruleset/cis-aws-foundations-benchmark/v/1.2.0',
-            'StandardsGuideSubscriptionArn': 'arn:aws:securityhub:us-east-1:988305183159:subscription/cis-aws-foundations-benchmark/v/1.2.0',
+            'StandardsGuideSubscriptionArn': 'arn:aws:securityhub:us-east-1:0123456789:subscription/cis-aws-foundations-benchmark/v/1.2.0',
             'RuleId': '4.1',
             'RecommendationUrl': 'https://docs.aws.amazon.com/console/securityhub/standards-cis-4.1/remediation',
             'RelatedAWSResources:0/name': 'securityhub-restricted-ssh-38a80c22',
             'RelatedAWSResources:0/type': 'AWS::Config::ConfigRule',
-            'StandardsControlArn': 'arn:aws:securityhub:us-east-1:988305183159:control/cis-aws-foundations-benchmark/v/1.2.0/4.1',
+            'StandardsControlArn': 'arn:aws:securityhub:us-east-1:0123456789:control/cis-aws-foundations-benchmark/v/1.2.0/4.1',
             'aws/securityhub/ProductName': 'Security Hub',
             'aws/securityhub/CompanyName': 'AWS',
-            'aws/securityhub/FindingId': 'arn:aws:securityhub:us-east-1::product/aws/securityhub/arn:aws:securityhub:us-east-1:988305183159:subscription/cis-aws-foundations-benchmark/v/1.2.0/4.1/finding/2a55570b-74e9-4aa3-9f4e-66f515c7ff03'
+            'aws/securityhub/FindingId': 'arn:aws:securityhub:us-east-1::product/aws/securityhub/arn:aws:securityhub:us-east-1:0123456789:subscription/cis-aws-foundations-benchmark/v/1.2.0/4.1/finding/2a55570b-74e9-4aa3-9f4e-66f515c7ff03'
         },
-        'AwsAccountId': '988305183159',
-        'Id': 'arn:aws:securityhub:us-east-1:988305183159:subscription/cis-aws-foundations-benchmark/v/1.2.0/4.1/finding/2a55570b-74e9-4aa3-9f4e-66f515c7ff03',
+        'AwsAccountId': '0123456789',
+        'Id': 'arn:aws:securityhub:us-east-1:0123456789:subscription/cis-aws-foundations-benchmark/v/1.2.0/4.1/finding/2a55570b-74e9-4aa3-9f4e-66f515c7ff03',
         'Remediation': {
             'Recommendation': {
                 'Text': 'For directions on how to fix this issue, please consult the AWS Security Hub CIS documentation.',
@@ -61,14 +61,14 @@ def test_fix_dictionary():
             'Details': {
                 'AwsEc2SecurityGroup': {
                     'GroupName': 'default',
-                    'OwnerId': '988305183159',
-                    'VpcId': 'vpc-0c08c3715ce814eec',
+                    'OwnerId': '0123456789',
+                    'VpcId': 'vpc-0123456789',
                     'IpPermissions': [{'IpProtocol': '-1', 'UserIdGroupPairs': [
-                        {'UserId': '988305183159', 'GroupId': 'sg-08b8ff9a2513880b2'}]}],
+                        {'UserId': '0123456789', 'GroupId': 'sg-0123456789'}]}],
                     'IpPermissionsEgress': [{'IpProtocol': '-1', 'IpRanges': [{'CidrIp': '0.0.0.0/0'}]}],
-                    'GroupId': 'sg-08b8ff9a2513880b2'}
+                    'GroupId': 'sg-0123456789'}
             },
-            'Region': 'us-east-1', 'Id': 'arn:aws:ec2:us-east-1:988305183159:security-group/sg-08b8ff9a2513880b2'
+            'Region': 'us-east-1', 'Id': 'arn:aws:ec2:us-east-1:0123456789:security-group/sg-0123456789'
         }]
     }
     result = transform_findings.fix_dictionary(finding)
