@@ -1,6 +1,6 @@
 ## AWS Security Hub Analytic Pipeline
 
-[AWS Security Hub](https://aws.amazon.com/security-hub/) is a service that gives you aggregated visibility into your security and compliance posture across multiple AWS accounts. However, by exporting findings to Athena, you can enrich the data up with additional sources such as your configuration management database (CMDB) or IT service management database.  Additionally, you can build analytic dimenions to find trends and patterns.  This code is part of an up coming blog post (link TBA).
+[AWS Security Hub](https://aws.amazon.com/security-hub/) is a service that gives you aggregated visibility into your security and compliance posture across multiple AWS accounts. However, by exporting findings to Athena, you can enrich the data up with additional sources such as your configuration management database (CMDB) or IT service management database.  Additionally, you can build analytic dimenions to find trends and patterns.  This code is part of an up coming blog post (link TBA) on exposing Security Hub Findings to Senior Leaders.
 
 This repository contains a CDK stack that builds the following infrastructure
 
