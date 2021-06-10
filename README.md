@@ -1,6 +1,6 @@
 ## AWS Security Hub Analytic Pipeline
 
-[AWS Security Hub](https://aws.amazon.com/security-hub/) is a service that gives you aggregated visibility into your security and compliance posture across multiple AWS accounts. By joining Security Hub with [Amazon QuickSight](https://aws.amazon.com/quicksight/) — a scalable, serverless, embeddable, machine learning-powered business intelligence (BI) service built for the cloud — your senior leaders and decision-makers can consume dashboards to empower data-driven decisions and ensure a secure fleet of AWS resources. In organizations that operate at cloud scale, being able to summarize and perform trending analysis is key to identifying and remediating problems early leading to overall success of the organization. Additionally, QuickSight dashboards can be embedded to provide leaders with single-panes of glass.
+[AWS Security Hub](https://aws.amazon.com/security-hub/) is a service that gives you aggregated visibility into your security and compliance posture across multiple AWS accounts. However, by exporting findings to Athena, you can enrich the data up with additional sources such as your configuration management database (CMDB) or IT service management database.  Additionally, you can build analytic dimenions to find trends and patterns.  This code is part of an up coming blog post (link TBA).
 
 This repository contains a CDK stack that builds the following infrastructure
 
