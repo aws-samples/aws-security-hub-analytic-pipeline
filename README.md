@@ -4,7 +4,7 @@
 
 This repository contains a CDK stack that builds the following infrastructure
 
-![CDK Infrastructure](blog_post/images/CDK_Portion.png)
+![CDK Infrastructure](./blog_post/images/CDK_Portion.png)
 
 Essentially there are two major components:
 - A custom CDK Construct for Security Hub that handles the necessary infrastructure to stream findings to Athena
