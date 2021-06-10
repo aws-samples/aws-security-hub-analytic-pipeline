@@ -1,0 +1,15 @@
+*.swp
+package-lock.json
+__pycache__
+.pytest_cache
+.env
+.venv
+*.egg-info
+.idea
+
+# CDK asset staging directory
+.cdk.staging
+cdk.out
+
+# Mac OS X
+.DS_Store
