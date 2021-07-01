@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import os
-
 from aws_cdk import core as cdk
 
 # For consistency with TypeScript code, `cdk` is the preferred import name for
@@ -9,26 +8,28 @@ from aws_cdk import core as cdk
 # being updated to use `cdk`.  You may delete this import if you don't need it.
 from aws_cdk import core
 
-from security_analytic_pipeline.security_analytic_pipeline_stack import SecurityAnalyticPipelineStack
-
+from security_analytic_pipeline.scanner_plus_security_hub_stack import ScannerPlusSecurityHubStack
+from security_analytic_pipeline.analytic_sink_stack import AnalyticSinkStack
 
 app = core.App()
-SecurityAnalyticPipelineStack(app, "SecurityAnalyticPipelineStack",
-                              # If you don't specify 'env', this stack will be environment-agnostic.
-                              # Account/Region-dependent features and context lookups will not work,
-                              # but a single synthesized template can be deployed anywhere.
 
-                              # Uncomment the next line to specialize this stack for the AWS Account
-                              # and Region that are implied by the current CLI configuration.
+#  You can get a list of all regions by using these commands
+# response = boto3.client('ec2').describe_regions()
+# region_names = [r['RegionName'] for r in response['Regions'] if r['OptInStatus'] == 'opt-in-not-required']
 
-                              #env=core.Environment(account=os.getenv('CDK_DEFAULT_ACCOUNT'), region=os.getenv('CDK_DEFAULT_REGION')),
+analytic_sink_stack = AnalyticSinkStack(app, 'AnalyticSink',
+                                        env=cdk.Environment(
+                                            region='us-east-1'
+                                        ))
 
-                              # Uncomment the next line if you know exactly what Account and Region you
-                              # want to deploy the stack to. */
+regions = ['us-east-2', 'us-west-1']
 
-                              #env=core.Environment(account='123456789012', region='us-east-1'),
-
-                              # For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html
-                              )
+for r in regions:
+    ScannerPlusSecurityHubStack(app, f'ScannerAndSecurityHub-{r}',
+                                env=cdk.Environment(
+                                    region=r
+                                ),
+                                sink_region='us-east-1',
+                                )
 
 app.synth()

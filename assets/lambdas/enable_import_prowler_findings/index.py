@@ -22,9 +22,11 @@ class EnableSecurityHubResource:
         return {'PhysicalResourceId': product_arn}
 
     def on_update(self, event):
+        properties = event['ResourceProperties']
+        product_arn = properties['product_arn']
         logger.warning(
-            'Attempt to update custom resource.  Security Hub is either enabled or disabled.  See Event for details %s' % event)
-        return {'PhysicalResourceId': self.region}
+            'Attempt to update custom resource.  Products is either enabled or disabled.  See Event for details %s' % event)
+        return {'PhysicalResourceId': product_arn}
 
     def on_delete(self, event):
         logger.debug('Event: %s' % event)
