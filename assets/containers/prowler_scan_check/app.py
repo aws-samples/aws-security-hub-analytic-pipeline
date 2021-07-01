@@ -3,16 +3,15 @@ import boto3
 from typing import List
 import json
 import sys
-
-# ./prowler -g 'internet-exposed' -b -M json
+import os
 
 class ProwlerScanGroup:
     def __init__(self, topic_arn):
-        self.topic = boto3.resource('sns').Topic(topic_arn)
+        self.__topic = boto3.resource('sns').Topic(topic_arn)
+        self.__region = os.environ['AWS_REGION']
 
-    @staticmethod
-    def __get_check(check_id:str) -> str:
-        stream = os.popen(f"/prowler/prowler -c '{check_id}' -M 'json-asff' -S")
+    def __get_check(self, check_id:str) -> str:
+        stream = os.popen(f"/prowler/prowler -r {self.__region} -c '{check_id}' -M 'json-asff' -S")
         raw_out = stream.read()
         return raw_out
 
@@ -20,7 +19,7 @@ class ProwlerScanGroup:
         records = event['Records']
         for r in records:
             group = r['Sns']['Message']
-            ProwlerScanGroup.__get_check(group)
+            self.__get_check(group)
 
 
 

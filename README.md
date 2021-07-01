@@ -4,11 +4,14 @@
 
 This repository contains a CDK stack that builds the following infrastructure
 
-![CDK Infrastructure](blog_post/images/cdk-portion.png)
+![CDK Infrastructure](blog_post/images/Security_Hub_Analysis.png)
 
-Essentially there are two major components:
-- A custom CDK Construct for Security Hub that handles the necessary infrastructure to stream findings to Athena
-- A custom CDK Construct to scan an account using Prowler.
+Essentially there are two CDK Stacks (in one CDK Application):
+- A stack deployed per region containing Security Hub and handles the necessary infrastructure to stream findings to S3
+- A stack deployed once containing all the infrastructure to transform raw findings and expose it with Athena.
+
+Additionally, included in the CDK application is Serverless Prowler Scanner designed to quickly provide real-data to help you walk through the Athena and QuickSight pieces, 
+by providing you with actual actionable data.
 
 ## Building the stack
 

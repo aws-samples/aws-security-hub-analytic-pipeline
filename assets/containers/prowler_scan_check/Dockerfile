@@ -7,7 +7,8 @@ RUN ln -s /tmp /prowler/output
 RUN chmod a+wr /prowler
 COPY app.py ./
 
-RUN yum install -y python3 bash curl jq file coreutils which && \
+RUN yum update -y && \
+    yum install -y python3 bash curl jq file coreutils which && \
     pip3 install --upgrade pip && \
     pip install awscli boto3 detect-secrets
 
