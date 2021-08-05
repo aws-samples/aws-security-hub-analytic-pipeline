@@ -22,6 +22,10 @@ class AnalyticSinkStack(cdk.Stack):
                                   encryption=s3.BucketEncryption.S3_MANAGED
                                   )
 
+        self.__query_result_bucket = s3.Bucket(self, 'QueryResultBucket',
+                                             removal_policy=cdk.RemovalPolicy.RETAIN,
+                                             encryption=s3.BucketEncryption.S3_MANAGED)
+
         # Make bucket accessible via other stacks in other Regions
         ssm.StringParameter(self, 'BucketParameter',
                             parameter_name='/AnalyticSinkStack/BucketName',
@@ -107,5 +111,9 @@ class AnalyticSinkStack(cdk.Stack):
                         table_prefix='security-hub-crawled-',
                         name='SecurityHubCrawler')
     @property
-    def bucket(self):
+    def target_bucket(self) -> s3.Bucket:
         return self.__bucket
+
+    @property
+    def query_result_bucket(self) -> s3.Bucket:
+        return self.__query_result_bucket

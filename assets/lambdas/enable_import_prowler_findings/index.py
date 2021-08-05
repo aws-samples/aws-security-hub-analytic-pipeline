@@ -16,9 +16,13 @@ class EnableSecurityHubResource:
         properties = event['ResourceProperties']
         product_arn = properties['product_arn']
         logger.info('Enabling Security Hub Integration: %s' % product_arn)
-        self.client.enable_import_findings_for_product(
-            ProductArn=product_arn
-        )
+        try:
+            self.client.enable_import_findings_for_product(
+                ProductArn=product_arn
+            )
+        except self.client.exceptions.ResourceConflictException:
+            logger.info('Product already enabled')
+
         return {'PhysicalResourceId': product_arn}
 
     def on_update(self, event):
@@ -49,6 +53,7 @@ class EnableSecurityHubResource:
         else:
             raise Exception("Invalid request type: %s" % request_type)
 
+fn = EnableSecurityHubResource()
 
 def handler(event, context):
-    return
+    return fn.handle(event, context)
