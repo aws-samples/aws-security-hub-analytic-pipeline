@@ -15,9 +15,13 @@ class EnableSecurityHubResource:
     def on_create(self, event):
         logger.info('Enabling Security Hub')
         logger.debug('Event: %s' % event)
-        self.client.enable_security_hub(
-            EnableDefaultStandards=True
-        )
+        try:
+            self.client.enable_security_hub(
+                EnableDefaultStandards=True
+            )
+        except self.client.exceptions.ResourceConflictException:
+            logger.info('Security Hub already enabled')
+
         return {'PhysicalResourceId': self.region}
 
     def on_update(self, event):
@@ -42,7 +46,6 @@ class EnableSecurityHubResource:
                 region_name=self.region
             ))
 
-
         if request_type == 'Create':
             return self.on_create(event)
         elif request_type == 'Update':
@@ -52,6 +55,7 @@ class EnableSecurityHubResource:
         else:
             raise Exception("Invalid request type: %s" % request_type)
 
+fn = EnableSecurityHubResource()
 
 def handler(event, context):
-    return
+    return fn.handle(event,context)

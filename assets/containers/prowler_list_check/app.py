@@ -3,6 +3,7 @@ import re
 import boto3
 import logging
 from typing import List
+from time import sleep
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -37,6 +38,7 @@ class ProwlerListGroups:
         processed = ProwlerListGroups.process_groups(groups)
         logger.info(f'groups found {groups}')
         for p in processed:
+            sleep(0.1) # Adds Slight Delay to help with Throttling API Calls during fanout
             self.topic.publish(Message=p)
 
 

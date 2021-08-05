@@ -103,6 +103,12 @@ class SecurityHub(cdk.Construct):
                                                handler='index.handler',
                                                runtime=lmb.Runtime.PYTHON_3_8)
 
+        enable_disable_function.add_to_role_policy(iam.PolicyStatement(
+            effect=iam.Effect.ALLOW,
+            actions=['securityhub:EnableImportFindingsForProduct'],
+            resources=['*']
+        ))
+
         enable_provider = custom_resources.Provider(self, 'EnableSHImportProvider',
                                                     on_event_handler=enable_disable_function,
                                                     log_retention=logs.RetentionDays.ONE_DAY)
