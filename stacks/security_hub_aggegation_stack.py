@@ -8,7 +8,7 @@ from custom_constructs.prowler_scanner import ProwlerScanner
 from custom_constructs.ssm_stored_parameter import SSMStoredParameter
 
 
-class ScannerPlusSecurityHubStack(cdk.Stack):
+class SecurityHubAggregationStack(cdk.Stack):
     def __init__(self, scope: cdk.Construct, construct_id: str, sink_region: str, **kwargs):
         super().__init__(scope, construct_id, **kwargs)
         security_hub = SecurityHub(self, 'SecurityHub')
@@ -27,3 +27,4 @@ class ScannerPlusSecurityHubStack(cdk.Stack):
             bucket_arn=sink_bucket_arn,
             bucket_region=sink_region
         )
+        security_hub.enable_aggregation()

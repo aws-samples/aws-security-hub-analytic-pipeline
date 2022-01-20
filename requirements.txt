@@ -9,9 +9,9 @@ aws_cdk.aws_lambda_python
 aws_cdk.aws_logs
 aws_cdk.aws_s3
 aws_cdk.aws_s3_notifications
+aws_cdk.aws_securityhub
 aws_cdk.aws_sns
 aws_cdk.aws_sns_subscriptions
 aws_cdk.aws_sqs
 aws_cdk.custom_resources
-
 boto3

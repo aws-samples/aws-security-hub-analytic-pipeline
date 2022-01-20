@@ -8,8 +8,9 @@ from aws_cdk import core as cdk
 # being updated to use `cdk`.  You may delete this import if you don't need it.
 from aws_cdk import core
 
-from security_analytic_pipeline.scanner_plus_security_hub_stack import ScannerPlusSecurityHubStack
-from security_analytic_pipeline.analytic_sink_stack import AnalyticSinkStack
+from stacks.security_hub_collection_stack import SecurityHubCollectionStack
+from stacks.security_hub_aggegation_stack import SecurityHubAggregationStack
+from stacks.analytic_sink_stack import AnalyticSinkStack
 
 app = core.App()
 
@@ -25,11 +26,18 @@ analytic_sink_stack = AnalyticSinkStack(app, 'AnalyticSink',
 regions = ['us-east-2', 'us-west-1']
 
 for r in regions:
-    ScannerPlusSecurityHubStack(app, f'ScannerAndSecurityHub-{r}',
+    stack = SecurityHubCollectionStack(app, f'SecurityHub-{r}',
                                 env=cdk.Environment(
                                     region=r
-                                ),
-                                sink_region='us-east-1',
-                                )
+                                ))
+    stack.add_dependency(analytic_sink_stack)
+
+stack = SecurityHubAggregationStack(app, 'Aggregation',
+                            env=cdk.Environment(
+                                region='us-east-1'
+                            ),
+                            sink_region='us-east-1')
+stack.add_dependency(analytic_sink_stack)
+
 
 app.synth()

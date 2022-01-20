@@ -3,17 +3,15 @@ from aws_cdk import (
     core as cdk,
     aws_events as events,
     aws_events_targets as events_targets,
-    aws_glue as glue,
     aws_iam as iam,
     aws_lambda as lmb,
-    aws_lambda_python as lambda_python,
     aws_logs as logs,
     aws_s3 as s3,
-    aws_s3_notifications as s3_notifications,
     aws_kinesisfirehose as kinesisfirehose,
+    aws_securityhub as securityhub,
     custom_resources
 )
-
+from typing import Optional, List
 from os import path
 
 
@@ -24,7 +22,6 @@ class SecurityHub(cdk.Construct):
         super().__init__(scope, identifier)
 
         self.this_dir = path.dirname(__file__)
-
         enable_disable_function = lmb.Function(self, 'EnableSHFunction',
                                                code=lmb.Code.from_asset(path.join(self.this_dir,
                                                                                   '../assets/lambdas/enable_security_hub_resource')),
@@ -61,10 +58,10 @@ class SecurityHub(cdk.Construct):
             bucket_region = cdk.Aws.REGION
 
         target_bucket = s3.Bucket.from_bucket_attributes(self, 'TargetBucket',
-            bucket_name=bucket_name,
-            bucket_arn=bucket_arn,
-            region=bucket_region
-        )
+                                                         bucket_name=bucket_name,
+                                                         bucket_arn=bucket_arn,
+                                                         region=bucket_region
+                                                         )
 
         role = iam.Role(self, 'DeliveryRole',
                         assumed_by=iam.ServicePrincipal('firehose.amazonaws.com'))
@@ -119,3 +116,32 @@ class SecurityHub(cdk.Construct):
                                'product_arn': product_arn
                            },
                            removal_policy=cdk.RemovalPolicy.RETAIN)
+
+    # FIXME: If it is already created, then we need to check the region and possibly delete it.
+    def enable_aggregation(self, regions: Optional[List[str]] = None):
+        if regions is not None and len(regions) > 0:
+            on_create = custom_resources.AwsSdkCall(
+                action='createFindingAggregator',
+                service='SecurityHub',
+                parameters={
+                    'RegionLinkingMode': 'SPECIFIED_REGIONS',
+                    'Regions': regions
+                },
+                physical_resource_id=custom_resources.PhysicalResourceId.of(cdk.Aws.REGION)
+            )
+
+
+        else:
+            on_create = custom_resources.AwsSdkCall(
+                action='createFindingAggregator',
+                service='SecurityHub',
+                parameters={
+                    'RegionLinkingMode': 'ALL_REGIONS',
+                },
+                physical_resource_id=custom_resources.PhysicalResourceId.of(cdk.Aws.REGION)
+            )
+        custom_resources.AwsCustomResource(self, 'SecurityHubAggregation',
+                                           on_create=on_create,
+                                           policy=custom_resources.AwsCustomResourcePolicy.from_sdk_calls(
+                                               resources=custom_resources.AwsCustomResourcePolicy.ANY_RESOURCE
+                                           ))
